@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { CustomConnectButton } from "@/components/CustomConnectButton";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <main>
         <div className="text-3xl font-bold underline">
           <h1>Welcome to the T2 template</h1>
-          <ConnectButton />
+          <CustomConnectButton />
         </div>
       </main>
     </>

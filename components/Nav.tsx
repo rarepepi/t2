@@ -1,117 +1,87 @@
 "use client";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FaAirbnb } from "react-icons/fa";
-import { Button } from "./ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MdImageSearch, MdQuestionMark } from "react-icons/md";
-import { BiBlanket } from "react-icons/bi";
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Button,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from "@nextui-org/react";
+import Link from "next/link";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
 import { ModeToggle } from "./ModeToggle";
 
 export const Nav = () => {
-  const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const menuItems = [
+    "Profile",
+    "Dashboard",
+    "Activity",
+    "Analytics",
+    "System",
+    "Deployments",
+    "My Settings",
+    "Team Settings",
+    "Help & Feedback",
+    "Log Out",
+  ];
   return (
-    <nav className="w-full">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-between h-16">
-          <div className="flex">
-            <Link href="/">
-              <div className="flex items-center justify-center w-24">
-                <FaAirbnb width={36} height={36} />
-                <span className="ml-2 font-bold">T2</span>
-              </div>
-            </Link>
-          </div>
-          <div className="sm:flex hidden">
-            <Link
-              className="px-3 py-3.5 rounded-md text-sm font-medium focus:outline-none hover:bg-primary-color hover:text-secondary-color"
-              href="/"
-            >
-              Explore
-            </Link>
+    <Navbar onMenuOpenChange={setIsMenuOpen}>
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+        <NavbarBrand>
+          <GitHubLogoIcon />
+          <p className="font-bold text-inherit ml-2">ACME</p>
+        </NavbarBrand>
+      </NavbarContent>
 
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link href="#">Features</Link>
+        </NavbarItem>
+        <NavbarItem isActive>
+          <Link href="#" aria-current="page">
+            Customers
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link href="#">Integrations</Link>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link href="#">Login</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <ModeToggle />
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              className="px-3 py-3.5 rounded-md text-sm font-medium focus:outline-none hover:bg-primary-color hover:text-secondary-color"
-              href="/"
+              color={
+                index === 2
+                  ? "primary"
+                  : index === menuItems.length - 1
+                  ? "danger"
+                  : "foreground"
+              }
+              className="w-full"
+              href="#"
             >
-              Features
+              {item}
             </Link>
-            <Link
-              className="px-3 py-3.5 rounded-md text-sm font-medium focus:outline-none hover:bg-primary-color hover:text-secondary-color"
-              href="/"
-            >
-              FAQ
-            </Link>
-          </div>
-
-          <div className="flex justify-center sm:items-stretch sm:justify-start">
-            <div className="hidden sm:flex">
-              <div className="flex justify-end w-24">
-                <ModeToggle />
-              </div>
-            </div>
-          </div>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger className="sm:hidden" asChild>
-              <Button size={"icon"} variant={"outline"}>
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem
-                  className="hover:cursor-pointer"
-                  onClick={() => router.push("/explore")}
-                >
-                  <MdImageSearch className="mr-2" />
-                  Explore
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => router.push("/features")}
-                  className="hover:cursor-pointer"
-                >
-                  <BiBlanket className="mr-2" />
-                  Features
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => router.push("/faq")}
-                  className="hover:cursor-pointer"
-                >
-                  <MdQuestionMark className="mr-2" />
-                  FAQ
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuLabel>
-                  <ModeToggle />
-                </DropdownMenuLabel>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-    </nav>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
+    </Navbar>
   );
 };

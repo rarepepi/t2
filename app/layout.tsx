@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { Metadata } from "next";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import { Nav } from "@/components/Nav";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -16,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers>
           <Nav />
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
